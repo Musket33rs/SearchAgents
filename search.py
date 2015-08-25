@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -18,7 +18,6 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
-
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -87,11 +86,55 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+#    print "Start:", problem.getStartState()
+#    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+#    print "Start's successors:", problem.getSuccessors(problem.getStartState())
+    visited = []
+    notVisited = util.Stack()
+    initialState = problem.getStartState()
+    notVisited.push((initialState,[]))
+
+    while(not notVisited.isEmpty()):
+        node, actions = notVisited.pop()
+        if node not in visited:
+            successors = problem.getSuccessors(node)
+            visited.append(node)
+            for x in successors:
+                tnode = x[0]
+                taction = x[1]
+                if tnode not in visited:
+                    notVisited.push((tnode,actions+[taction]))
+                    if problem.isGoalState(tnode):
+                        return actions +[taction]
+
+"""
+    #util.raiseNotDefined()
+
+    #return actions"""
+
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    visited = []
+    notVisited = util.Queue()
+    initialState = problem.getStartState()
+    notVisited.push((initialState,[]))
+
+    while(not notVisited.isEmpty()):
+        node, actions = notVisited.pop()
+        if node not in visited:
+            successors = problem.getSuccessors(node)
+            visited.append(node)
+            for x in successors:
+                tnode = x[0]
+                taction = x[1]
+                if tnode not in visited:
+                    notVisited.push((tnode,actions+[taction]))
+                    if problem.isGoalState(tnode):
+                        return actions +[taction]
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
