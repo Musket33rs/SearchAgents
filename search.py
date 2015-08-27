@@ -135,7 +135,7 @@ def breadthFirstSearch(problem):
                     if problem.isGoalState(tnode):
                         return moves +[tmove]
 
-    util.raiseNotDefined()
+    #util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
