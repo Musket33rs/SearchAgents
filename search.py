@@ -133,7 +133,7 @@ def breadthFirstSearch(problem):
                 if tnode not in visited:
                     notVisited.push((tnode,moves+[tmove]))
 
-    util.raiseNotDefined()
+    # util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
