@@ -93,19 +93,18 @@ def depthFirstSearch(problem):
     notVisited = util.Stack()
     initialState = problem.getStartState()
     notVisited.push((initialState,[]))
-
     while(not notVisited.isEmpty()):
         node, moves = notVisited.pop()
         if node not in visited:
-            successors = problem.getSuccessors(node)
             visited.append(node)
+            if problem.isGoalState(node):
+                return moves
+            successors = problem.getSuccessors(node)
             for x in successors:
                 tnode = x[0]
                 tmove = x[1]
                 if tnode not in visited:
                     notVisited.push((tnode,moves+[tmove]))
-                    if problem.isGoalState(tnode):
-                        return moves +[tmove]
 
 """
     #util.raiseNotDefined()
@@ -121,26 +120,26 @@ def breadthFirstSearch(problem):
     notVisited = util.Queue()
     initialState = problem.getStartState()
     notVisited.push((initialState,[]))
-
     while(not notVisited.isEmpty()):
         node, moves = notVisited.pop()
         if node not in visited:
-            successors = problem.getSuccessors(node)
             visited.append(node)
+            if problem.isGoalState(node):
+                return moves
+            successors = problem.getSuccessors(node)
             for x in successors:
                 tnode = x[0]
                 tmove = x[1]
                 if tnode not in visited:
                     notVisited.push((tnode,moves+[tmove]))
-                    if problem.isGoalState(tnode):
-                        return moves +[tmove]
 
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    #util.raiseNotDefined()
+    return aStarSearch(problem)
+"""    #util.raiseNotDefined()
     visited = []
     notVisited = util.PriorityQueue()
     initialState = problem.getStartState()
@@ -149,18 +148,18 @@ def uniformCostSearch(problem):
     while(not notVisited.isEmpty()):
         node, moves = notVisited.pop()
         if node not in visited:
-            successors = problem.getSuccessors(node)
             visited.append(node)
+            if problem.isGoalState(node):
+                return moves
+            successors = problem.getSuccessors(node)
             for x in successors:
                 tnode = x[0]
                 tmove = x[1]
-                tpriority = x[2]
+                theMoves = moves+[tmove]
+                tpriority = problem.getCostOfActions(theMoves)
                 if tnode not in visited:
-                    #print tpriority
-                    notVisited.push((tnode,moves+[tmove]),tpriority)
-                    if problem.isGoalState(tnode):
-                        return moves +[tmove]
-
+                    notVisited.push((tnode,theMoves),tpriority)
+"""
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
@@ -182,8 +181,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     while(not openList.isEmpty()):
         node, moves = openList.pop()
         if node not in closedList:
-            successors = problem.getSuccessors(node)
             closedList.append(node)
+            if problem.isGoalState(node):
+                return moves
+            successors = problem.getSuccessors(node)
             for x in successors:
                 tnode = x[0]
                 tmove = x[1]
@@ -193,10 +194,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                     th = heuristic(tnode,problem)
                     tf = tg + th
                     openList.push((tnode,theMoves),tf)
-                    if problem.isGoalState(tnode):
-                        return theMoves
-
-
 
 # Abbreviations
 bfs = breadthFirstSearch
