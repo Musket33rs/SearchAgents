@@ -255,7 +255,6 @@ def manhattanHeuristic(position, problem, info={}):
     xy1 = position
     xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-
 def euclideanHeuristic(position, problem, info={}):
     "The Euclidean distance heuristic for a PositionSearchProblem"
     xy1 = position
@@ -298,7 +297,7 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         startingPosition = self.startingPosition
         startState = (startingPosition, ())
-        print 'startState ',startState
+    #    print 'startState ',startState
         return startState
         util.raiseNotDefined()
 
@@ -309,7 +308,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        print 'state[1] in goal ', state[1]
+    #    print 'state[1] in goal ', state[1]
         if state[1] == self.corners:
             goal = True
 
