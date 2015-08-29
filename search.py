@@ -120,6 +120,7 @@ def breadthFirstSearch(problem):
     notVisited = util.Queue()
     initialState = problem.getStartState()
     notVisited.push((initialState,[]))
+    
     while(not notVisited.isEmpty()):
         node, moves = notVisited.pop()
         if node not in visited:
