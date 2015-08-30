@@ -392,22 +392,24 @@ def cornersHeuristic(state, problem):
     for x in state[1]:
         goal+=[x]
     heuristic = 0
-    possibilities = []
+    possibilities = util.PriorityQueue()
     #newPos = pos
     #if pos in goal:
         #return 0
     while len(goal)>0:
         for p in pos:
             for g in goal:
+                #print p,g
                 t = myDistance(p,g)
-                possibilities+=[(g,t)]
-        if possibilities == []:
+                possibilities.push((g,t),t)
+        if possibilities.isEmpty():
             return 0
-        thisMin = min(possibilities, key = lambda t: t[1])
-        goal.remove(thisMin[0])
-        possibilities = []
-        pos.append(thisMin[0])
-        heuristic += thisMin[1]
+        thisMin,thisT = possibilities.pop()
+        goal.remove(thisMin)
+        possibilities = util.PriorityQueue()
+        pos.append(thisMin)
+        heuristic += thisT
+    
     if heuristic < 0:
         return 0
     return heuristic
@@ -504,7 +506,35 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    pos = [position] #[state[0]]
+    goal = foodGrid.asList()
+    #for x in state[1]:
+    #    goal+=[x]
+    heuristic = 0
+    #possibilities = []
+    possibilities = util.PriorityQueue()
+    #newPos = pos
+    #if pos in goal:
+        #return 0
+    while len(goal)>0:
+        for p in pos:
+            for g in goal:
+                #print p,g
+                t = myDistance(p,g)
+                possibilities.push((g,t),t)
+        if possibilities.isEmpty():
+            return 0
+        thisMin,thisT = possibilities.pop()
+        goal.remove(thisMin)
+        possibilities = util.PriorityQueue()
+        pos.append(thisMin)
+        heuristic += thisT
+    if heuristic < 0:
+        return 0
+    #print heuristic
+    return heuristic
+#    return 0
+
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
