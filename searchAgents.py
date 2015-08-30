@@ -11,6 +11,10 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
+# Students:
+# Name            Student ID.
+# Tou LEE         656128
+# Jaime Martinez  642231
 
 """
 This file contains all of the agents that can be selected to control Pacman.  To
@@ -287,20 +291,17 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        self.goal = []
-        for x in self.corners:
-            self.goal += [x]
-        print self.goal
+        self.goal = list(self.corners)
+
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
         space)
         """
         "*** YOUR CODE HERE ***"
+        # Start state is (starting position and corners to visit)
         startingPosition = self.startingPosition
         startState = (startingPosition, self.corners)
-        #print 'startState ',startState
-
         return startState
         util.raiseNotDefined()
 
@@ -311,7 +312,9 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
         goal = False
+        # Corners left for agent to visit
         cornersLeft = state[1]
+        # if no more corners left to visit then goal is true
         if len(cornersLeft) == 0:
             goal = True
         return goal
@@ -334,6 +337,8 @@ class CornersProblem(search.SearchProblem):
             # Here's a code snippet for figuring out whether a new position hits a wall:
 
             "*** YOUR CODE HERE ***"
+            # succersor is the next position according to the action and
+            # corners left to visit
             x,y = currentPosition = state[0]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
@@ -341,7 +346,10 @@ class CornersProblem(search.SearchProblem):
             hitsWall = self.walls[nextx][nexty]
             cornersLeft = state[1]
             cost = 1
+            # if agent does not hit the wall
             if not hitsWall:
+                # if the next position is a corner then next state's corners left
+                # to be visited will decrease
                 if (nextPosition in cornersLeft):
                     tempCorners = list(cornersLeft)
                     tempCorners.remove(nextPosition)
@@ -388,18 +396,14 @@ def cornersHeuristic(state, problem):
 
     "*** YOUR CODE HERE ***"
     pos = [state[0]]
-    goal = []
-    for x in state[1]:
-        goal+=[x]
+    goal = list(state[1])
     heuristic = 0
+    # possible paths
     possibilities = util.PriorityQueue()
-    #newPos = pos
-    #if pos in goal:
-        #return 0
+
     while len(goal)>0:
         for p in pos:
             for g in goal:
-                #print p,g
                 t = myDistance(p,g)
                 possibilities.push((g,t),t)
         if possibilities.isEmpty():
@@ -508,18 +512,11 @@ def foodHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     pos = [position] #[state[0]]
     goal = foodGrid.asList()
-    #for x in state[1]:
-    #    goal+=[x]
     heuristic = 0
-    #possibilities = []
     possibilities = util.PriorityQueue()
-    #newPos = pos
-    #if pos in goal:
-        #return 0
     while len(goal)>0:
         for p in pos:
             for g in goal:
-                #print p,g
                 t = myDistance(p,g)
                 possibilities.push((g,t),t)
         if possibilities.isEmpty():
@@ -531,10 +528,7 @@ def foodHeuristic(state, problem):
         heuristic += thisT
     if heuristic < 0:
         return 0
-    #print heuristic
     return heuristic
-#    return 0
-
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -565,7 +559,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        
+        # using bfs to find the actions to be taken to solve the problem
         return search.breadthFirstSearch(problem)
         util.raiseNotDefined()
 
@@ -603,6 +597,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
+        # goal is if the state is in a food position
         return state in self.food.asList()
         util.raiseNotDefined()
 

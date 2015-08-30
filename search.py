@@ -11,6 +11,11 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
+# Students:
+# Name            Student ID.
+# Tou LEE         656128
+# Jaime Martinez  642231
+
 
 """
 In search.py, you will implement generic search algorithms which are called by
@@ -86,9 +91,6 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-#    print "Start:", problem.getStartState()
-#    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-#    print "Start's successors:", problem.getSuccessors(problem.getStartState())
     visited = []
     notVisited = util.Stack()
     initialState = problem.getStartState()
@@ -105,12 +107,6 @@ def depthFirstSearch(problem):
                 tmove = x[1]
                 if tnode not in visited:
                     notVisited.push((tnode,moves+[tmove]))
-
-"""
-    #util.raiseNotDefined()
-
-    #return moves"""
-
 
 
 def breadthFirstSearch(problem):
@@ -139,28 +135,10 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    # A star with null heuristic is ucs
     return aStarSearch(problem)
-"""    #util.raiseNotDefined()
-    visited = []
-    notVisited = util.PriorityQueue()
-    initialState = problem.getStartState()
-    notVisited.push((initialState,[]),0)
 
-    while(not notVisited.isEmpty()):
-        node, moves = notVisited.pop()
-        if node not in visited:
-            visited.append(node)
-            if problem.isGoalState(node):
-                return moves
-            successors = problem.getSuccessors(node)
-            for x in successors:
-                tnode = x[0]
-                tmove = x[1]
-                theMoves = moves+[tmove]
-                tpriority = problem.getCostOfActions(theMoves)
-                if tnode not in visited:
-                    notVisited.push((tnode,theMoves),tpriority)
-"""
+
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
