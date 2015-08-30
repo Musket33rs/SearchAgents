@@ -287,8 +287,10 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-
-
+        self.goal = []
+        for x in self.corners:
+            self.goal += [x]
+        print self.goal
     def getStartState(self):
         """
         Returns the start state (in your state space, not the full Pacman state
@@ -297,7 +299,7 @@ class CornersProblem(search.SearchProblem):
         "*** YOUR CODE HERE ***"
         startingPosition = self.startingPosition
         startState = (startingPosition, self.corners)
-        print 'startState ',startState
+        #print 'startState ',startState
 
         return startState
         util.raiseNotDefined()
@@ -338,7 +340,7 @@ class CornersProblem(search.SearchProblem):
             nextPosition = (nextx, nexty)
             hitsWall = self.walls[nextx][nexty]
             cornersLeft = state[1]
-            cost = 0
+            cost = 1
             if not hitsWall:
                 if (nextPosition in cornersLeft):
                     tempCorners = list(cornersLeft)
@@ -363,7 +365,11 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
-
+def myDistance(xy1,xy2):
+    #manhattan
+    #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+    #euclidean
+    return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
 def cornersHeuristic(state, problem):
     """
     A heuristic for the CornersProblem that you defined.
@@ -381,11 +387,30 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    currentx, currenty = currentState =state[0]
-    for corner in corners:
-
-
-    return 0 # Default to trivial solution
+    pos = [state[0]]
+    goal = []
+    for x in state[1]:
+        goal+=[x]
+    heuristic = 0
+    possibilities = []
+    #newPos = pos
+    #if pos in goal:
+        #return 0
+    while len(goal)>0:
+        for p in pos:
+            for g in goal:
+                t = myDistance(p,g)
+                possibilities+=[(g,t)]
+        if possibilities == []:
+            return 0
+        thisMin = min(possibilities, key = lambda t: t[1])
+        goal.remove(thisMin[0])
+        possibilities = []
+        pos.append(thisMin[0])
+        heuristic += thisMin[1]
+    if heuristic < 0:
+        return 0
+    return heuristic
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"

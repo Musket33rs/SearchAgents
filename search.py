@@ -120,7 +120,7 @@ def breadthFirstSearch(problem):
     notVisited = util.Queue()
     initialState = problem.getStartState()
     notVisited.push((initialState,[]))
-    
+
     while(not notVisited.isEmpty()):
         node, moves = notVisited.pop()
         if node not in visited:
@@ -177,7 +177,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     closedList = []
     initialState = problem.getStartState()
     heur = heuristic(initialState,problem)
-    print heur
     openList.push((initialState,[]),heur)
     while(not openList.isEmpty()):
         node, moves = openList.pop()
